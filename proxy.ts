@@ -20,15 +20,20 @@ export async function proxy(request: NextRequest) {
       headers: request.headers,
     },
   });
+
+  // Instantiate Supabase server client per request(shares cookies via NextResponse)
+  // This automatically refreshes expired tokens and give authenticated user if any
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  console.log ({ user });
+
+  console.log({ user });
 
   // Redirect non-authenticated users away from protected routes
   if (!user && request.nextUrl.pathname.startsWith("/protected")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
+
   return response;
 }

@@ -14,6 +14,7 @@ function getEnvironmentVariables() {
   return { supabaseUrl, supabaseAnonKey };
 }
 
+// Return a Supabase Server Client configured to use cookies from the request 
 export async function createSupabaseServerClient() {
   const { supabaseUrl, supabaseAnonKey } = getEnvironmentVariables();
   const cookieStore = await cookies();
@@ -25,10 +26,10 @@ export async function createSupabaseServerClient() {
       },
       setAll(cookiesToSet) {
         try {
-          cookiesToSet.forEach(({ name, value, options }) => 
+          cookiesToSet.forEach(({ name, value, options }) =>
             cookieStore.set(name, value, options)
           );
-        } catch(error) {
+        } catch (error) {
           console.log(error)
         }
       }

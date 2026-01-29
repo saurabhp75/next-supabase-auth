@@ -12,7 +12,7 @@ type EmailPasswordDemoProps = {
 type Mode = "signup" | "signin"
 
 export default function EmailPasswordDemo({ user }: EmailPasswordDemoProps) {
-  const [mode, setMode] = useState("signup");
+  const [mode, setMode] = useState<Mode>("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
@@ -25,6 +25,7 @@ export default function EmailPasswordDemo({ user }: EmailPasswordDemoProps) {
     setStatus("Signed out successfully");
   }
 
+  // Listen for auth state changes and update currentUser accordingly
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
@@ -38,6 +39,7 @@ export default function EmailPasswordDemo({ user }: EmailPasswordDemoProps) {
   }, [supabase])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    // Prevent page reload
     event.preventDefault();
 
     if (mode == "signup") {
@@ -45,7 +47,7 @@ export default function EmailPasswordDemo({ user }: EmailPasswordDemoProps) {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/welcome`,
+          emailRedirectTo: `${window.location.origin}`,
         }
       });
       if (error) {
@@ -53,6 +55,7 @@ export default function EmailPasswordDemo({ user }: EmailPasswordDemoProps) {
       } else {
         setStatus("Check your inbox to confirm the new account.");
       }
+      console.log({ data })
     } else {
       const { error, data } = await supabase.auth.signInWithPassword({
         email,

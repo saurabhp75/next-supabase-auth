@@ -19,7 +19,7 @@ This project showcases two authentication patterns using Supabase and Next.js 16
 
 ## Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - A Supabase project ([create one here](https://supabase.com))
 
 ## Getting Started
@@ -43,10 +43,12 @@ You can find these values in your Supabase project settings
 
 ### 3. Configure Supabase
 
-#### For Email + Password:
+#### For Email + Password
+
 - Enable Email provider in Authentication > Providers
 
-#### For Google Login:
+#### For Google Login
+
 - Enable Google provider in Authentication > Providers
 - Add your redirect URL
 - Add production redirect URL when deploying
@@ -76,16 +78,19 @@ Open [http://localhost:3000](http://localhost:3000) to see the demo.
 ## Key Concepts
 
 ### Server Client (`lib/supabase/server-client.ts`)
+
 - Used in Server Components and API routes
 - Shares cookies via Next.js `cookies()` API
 - Automatically refreshes tokens when needed
 
 ### Browser Client (`lib/supabase/browser-client.ts`)
+
 - Used in Client Components
 - Singleton pattern for efficiency
 - Works with React's `onAuthStateChange` listener
 
 ### Proxy (`proxy.ts`)
+
 - Runs on every request
 - Protects routes starting with `/protected`
 - Redirects unauthenticated users to `/login`
@@ -113,3 +118,8 @@ Open [http://localhost:3000](http://localhost:3000) to see the demo.
 
 - [Supabase Auth Documentation](https://supabase.com/docs/guides/auth)
 - [Next.js Documentation](https://nextjs.org/docs)
+
+## Server client and Browser client
+
+- The Server client authenticates inbound request to Nextjs backend.
+- The Browser client manages the user session and login flow inside the broweser.
